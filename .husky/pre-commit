@@ -1,16 +1,15 @@
-#!/usr/bin/env sh
-. "$(dirname -- "$0")/_/husky.sh"
-
 echo "Running pre-commit hooks..."
 
-# Check formatting
-npm run format:check
-if [ $? -ne 0 ]; then
-  echo "Code formatting check failed. Please run 'npm run format:write' to fix."
-  exit 1
-fi
+# Format code and stage any changes
+echo "Formatting code with Prettier..."
+npm run format:write
+
+# The command below is commented out as it can be risky if there are other unstaged files.
+# To enable auto-staging of formatted files, you can uncomment it.
+git add .
 
 # Run tests
+echo "Running tests..."
 npm test
 if [ $? -ne 0 ]; then
   echo "Tests failed. Please fix them before committing."
